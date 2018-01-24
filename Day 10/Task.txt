@@ -1,0 +1,16 @@
+create trigger insert_name
+before insert on number
+for each row
+begin
+if (new.n1 > 10)
+how do you say to continue
+then
+else
+how to do you say to dont do any thing?
+end if
+end
+
+
+
+
+--another possibility is to delete the value after the row < 10 was inserted
