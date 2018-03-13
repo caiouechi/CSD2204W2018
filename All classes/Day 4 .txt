@@ -1,0 +1,642 @@
+Last login: Wed Jan 10 15:08:26 on ttys000
+Jigishas-MacBook-Pro:~ jkp$ cd /Applications/XAMPP/bin
+Jigishas-MacBook-Pro:bin jkp$ ./mysql -u root -p
+Enter password: 
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock' (2 "No such file or directory")
+Jigishas-MacBook-Pro:bin jkp$ cd /Applications/XAMPP/bin
+Jigishas-MacBook-Pro:bin jkp$ ./mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 10.1.29-MariaDB Source distribution
+
+Copyright (c) 2000, 2017, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use csd2204w18
+Database changed
+MariaDB [csd2204w18]> select * from customers;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.01 sec)
+
+MariaDB [csd2204w18]> create table c1(
+    ->    customersID int(2),
+    ->      name varchar(40),
+    ->    nickname varchar(10),
+    ->      address varchar(50),
+    ->   city varchar(30),
+    ->      postalCode int(6)
+    ->      );
+ERROR 1050 (42S01): Table 'c1' already exists
+MariaDB [csd2204w18]> 
+MariaDB [csd2204w18]> SELECT * FROM CUSTOMERS WHERE NAME LIKE '%n';
++-------------+-----------------+----------+---------------------------+----------+------------+
+| customersID | name            | nickname | address                   | city     | postalCode |
++-------------+-----------------+----------+---------------------------+----------+------------+
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York |     120134 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto  |     130120 |
++-------------+-----------------+----------+---------------------------+----------+------------+
+2 rows in set (0.01 sec)
+
+MariaDB [csd2204w18]> SELECT * FROM CUSTOMERS WHERE customersID NOT BETWEEN 4 AND 7;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+6 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> SELECT * FROM CUSTOMERS WHERE nickname IN ('Bm','AK','Sparrow');
++-------------+---------------+----------+-----------------+------------+------------+
+| customersID | name          | nickname | address         | city       | postalCode |
++-------------+---------------+----------+-----------------+------------+------------+
+|           2 | Bob marley    | Bm       | Keele street    | Toronto    |     100100 |
+|           8 | Ashko Charles | AK       | Washington D.C. | USA        |     421044 |
+|          10 | Jack Sp       | Sparrow  | Oaster village  | New Jersey |     102301 |
++-------------+---------------+----------+-----------------+------------+------------+
+3 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> SELECT * FROM CUSTOMERS WHERE nickname NOT IN ('Bm','AK','Sparrow');
++-------------+-----------------+----------+---------------------------+----------+------------+
+| customersID | name            | nickname | address                   | city     | postalCode |
++-------------+-----------------+----------+---------------------------+----------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC      |     321200 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil   |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto  |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto  |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York |     320300 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA      |     418921 |
++-------------+-----------------+----------+---------------------------+----------+------------+
+7 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> SELECT customersID,name,nickname FROM CUSTOMERS WHERE nickname NOT IN ('Bm','AK','Sparrow');
++-------------+-----------------+----------+
+| customersID | name            | nickname |
++-------------+-----------------+----------+
+|           1 | Ashley          | Ash      |
+|           3 | Cherlies Theron | Cher     |
+|           4 | Denial Jack     | DJ       |
+|           5 | Donna newman    | New      |
+|           6 | Eston M.        | M.       |
+|           7 | Bobby Chacko    | Chac     |
+|           9 | Tony Special    | Specie   |
++-------------+-----------------+----------+
+7 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> SELECT customersID,name AS "FullName" FROM CUSTOMERS WHERE nickname NOT IN ('Bm','AK','Sparro
++-------------+-----------------+
+| customersID | FullName        |
++-------------+-----------------+
+|           1 | Ashley          |
+|           3 | Cherlies Theron |
+|           4 | Denial Jack     |
+|           5 | Donna newman    |
+|           6 | Eston M.        |
+|           7 | Bobby Chacko    |
+|           9 | Tony Special    |
++-------------+-----------------+
+7 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> SELECT count(*) FROM CUSTOMERS WHERE name LIKE 'A%';
++----------+
+| count(*) |
++----------+
+|        2 |
++----------+
+1 row in set (0.01 sec)
+
+MariaDB [csd2204w18]> SELECT count(*) AS "customers having name with A" FROM CUSTOMERS WHERE name LIKE 'A%';
++------------------------------+
+| customers having name with A |
++------------------------------+
+|                            2 |
++------------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> SELECT DISTINCT(CITY) FROM customerS;
++------------+
+| CITY       |
++------------+
+| WDC        |
+| Toronto    |
+| New York   |
+| Brazil     |
+| USA        |
+| GTA        |
+| New Jersey |
++------------+
+7 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers order by name;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers order by name desc;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers order by name asc;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers order by city asc;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers order by city,postalcode asc;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers order by postalcode,city asc;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers order by city desc,postalcode asc;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers group by city;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+7 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select count(*) from customers group by city;
++----------+
+| count(*) |
++----------+
+|        1 |
+|        1 |
+|        1 |
+|        2 |
+|        3 |
+|        1 |
+|        1 |
++----------+
+7 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select count(*),city from customers group by city;
++----------+------------+
+| count(*) | city       |
++----------+------------+
+|        1 | Brazil     |
+|        1 | GTA        |
+|        1 | New Jersey |
+|        2 | New York   |
+|        3 | Toronto    |
+|        1 | USA        |
+|        1 | WDC        |
++----------+------------+
+7 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers group by city;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+7 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select min(postalCode) from customers;
++-----------------+
+| min(postalCode) |
++-----------------+
+|          100100 |
++-----------------+
+1 row in set (0.00 sec)
+
+MariaDB [csd2204w18]> select max(postalCode) from customers;
++-----------------+
+| max(postalCode) |
++-----------------+
+|          421044 |
++-----------------+
+1 row in set (0.00 sec)
+
+MariaDB [csd2204w18]> select sum(postalCode) from customers;
++-----------------+
+| sum(postalCode) |
++-----------------+
+|         2476163 |
++-----------------+
+1 row in set (0.00 sec)
+
+MariaDB [csd2204w18]> select avg(postalCode) from customers;
++-----------------+
+| avg(postalCode) |
++-----------------+
+|     247616.3000 |
++-----------------+
+1 row in set (0.00 sec)
+
+MariaDB [csd2204w18]> select city,count(city)*100/10 from customers group by city;
++------------+--------------------+
+| city       | count(city)*100/10 |
++------------+--------------------+
+| Brazil     |            10.0000 |
+| GTA        |            10.0000 |
+| New Jersey |            10.0000 |
+| New York   |            20.0000 |
+| Toronto    |            30.0000 |
+| USA        |            10.0000 |
+| WDC        |            10.0000 |
++------------+--------------------+
+7 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select city,count(city)*100/10 as "Customers %" from customers group by city;
++------------+-------------+
+| city       | Customers % |
++------------+-------------+
+| Brazil     |     10.0000 |
+| GTA        |     10.0000 |
+| New Jersey |     10.0000 |
+| New York   |     20.0000 |
+| Toronto    |     30.0000 |
+| USA        |     10.0000 |
+| WDC        |     10.0000 |
++------------+-------------+
+7 rows in set (0.01 sec)
+
+MariaDB [csd2204w18]> select * from customers;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers LIMIT 5;
++-------------+-----------------+----------+---------------------------+----------+------------+
+| customersID | name            | nickname | address                   | city     | postalCode |
++-------------+-----------------+----------+---------------------------+----------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC      |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto  |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil   |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto  |     130120 |
++-------------+-----------------+----------+---------------------------+----------+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers order by customersID LIMIT 5;
++-------------+-----------------+----------+---------------------------+----------+------------+
+| customersID | name            | nickname | address                   | city     | postalCode |
++-------------+-----------------+----------+---------------------------+----------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC      |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto  |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil   |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto  |     130120 |
++-------------+-----------------+----------+---------------------------+----------+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers order by customersID desc LIMIT 3;
++-------------+---------------+----------+-----------------+------------+------------+
+| customersID | name          | nickname | address         | city       | postalCode |
++-------------+---------------+----------+-----------------+------------+------------+
+|          10 | Jack Sp       | Sparrow  | Oaster village  | New Jersey |     102301 |
+|           9 | Tony Special  | Specie   | Oakville        | GTA        |     418921 |
+|           8 | Ashko Charles | AK       | Washington D.C. | USA        |     421044 |
++-------------+---------------+----------+-----------------+------------+------------+
+3 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers order by customersID desc LIMIT 3 order by customersID ASC;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'order by customersID ASC' at line 1
+MariaDB [csd2204w18]> (select * from customers order by customersID desc LIMIT 3) order by customersID ASC;
++-------------+---------------+----------+-----------------+------------+------------+
+| customersID | name          | nickname | address         | city       | postalCode |
++-------------+---------------+----------+-----------------+------------+------------+
+|           8 | Ashko Charles | AK       | Washington D.C. | USA        |     421044 |
+|           9 | Tony Special  | Specie   | Oakville        | GTA        |     418921 |
+|          10 | Jack Sp       | Sparrow  | Oaster village  | New Jersey |     102301 |
++-------------+---------------+----------+-----------------+------------+------------+
+3 rows in set (0.01 sec)
+
+MariaDB [csd2204w18]> select * from (select * from customers order by customersID desc LIMIT 3) order by customersID ASC;
+ERROR 1248 (42000): Every derived table must have its own alias
+MariaDB [csd2204w18]> select * from (select * from customers order by customersID desc LIMIT 3) j1 order by customersID ASC;
++-------------+---------------+----------+-----------------+------------+------------+
+| customersID | name          | nickname | address         | city       | postalCode |
++-------------+---------------+----------+-----------------+------------+------------+
+|           8 | Ashko Charles | AK       | Washington D.C. | USA        |     421044 |
+|           9 | Tony Special  | Specie   | Oakville        | GTA        |     418921 |
+|          10 | Jack Sp       | Sparrow  | Oaster village  | New Jersey |     102301 |
++-------------+---------------+----------+-----------------+------------+------------+
+3 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> INSERT INTO customers (customersID,name) VALUES(11,'Keshav');
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [csd2204w18]> select * from customers;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
+|          11 | Keshav          | NULL     | NULL                      | NULL       |       NULL |
++-------------+-----------------+----------+---------------------------+------------+------------+
+11 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers where nickname IS NULL;
++-------------+--------+----------+---------+------+------------+
+| customersID | name   | nickname | address | city | postalCode |
++-------------+--------+----------+---------+------+------------+
+|          11 | Keshav | NULL     | NULL    | NULL |       NULL |
++-------------+--------+----------+---------+------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers where nickname IS NOT NULL;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
++-------------+-----------------+----------+---------------------------+------------+------------+
+10 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> 

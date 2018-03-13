@@ -1,0 +1,194 @@
+Last login: Fri Jan 12 08:04:34 on ttys000
+Jigishas-MacBook-Pro:~ jkp$ cd /Applications/XAMPP/bin
+Jigishas-MacBook-Pro:bin jkp$ ./mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 4
+Server version: 10.1.29-MariaDB Source distribution
+
+Copyright (c) 2000, 2017, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use csd2204w18
+Database changed
+MariaDB [csd2204w18]> CREATE TABLE `citymaster` (
+    ->   `CityID` int(4) NOT NULL,
+    ->   `cityName` varchar(255) DEFAULT 'toronto'
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [csd2204w18]> CREATE TABLE `persons` (
+    ->   `ID` int(3) NOT NULL,
+    ->   `LasteName` varchar(255) NOT NULL,
+    ->   `FirstName` varchar(255) DEFAULT NULL,
+    ->   `Age` int(3) DEFAULT NULL,
+    ->   `CityID` int(4) DEFAULT NULL
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+MariaDB [csd2204w18]> show tables;
++----------------------+
+| Tables_in_csd2204w18 |
++----------------------+
+| c1                   |
+| citymaster           |
+| customers            |
+| persons              |
++----------------------+
+4 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> show index from cityMAster;
+Empty set (0.00 sec)
+
+MariaDB [csd2204w18]> show index from persons;
+Empty set (0.00 sec)
+
+MariaDB [csd2204w18]> 
+MariaDB [csd2204w18]> 
+MariaDB [csd2204w18]> 
+MariaDB [csd2204w18]> 
+MariaDB [csd2204w18]> 
+MariaDB [csd2204w18]> 
+MariaDB [csd2204w18]> 
+MariaDB [csd2204w18]> show tables;
++----------------------+
+| Tables_in_csd2204w18 |
++----------------------+
+| c1                   |
+| citymaster           |
+| customers            |
+| persons              |
++----------------------+
+4 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> select * from customers;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
+|          11 | Keshav          | NULL     | NULL                      | NULL       |       NULL |
++-------------+-----------------+----------+---------------------------+------------+------------+
+11 rows in set (0.01 sec)
+
+MariaDB [csd2204w18]> create table c1 AS select * from customers;
+ERROR 1050 (42S01): Table 'c1' already exists
+MariaDB [csd2204w18]> create table j1 AS select * from customers;
+Query OK, 11 rows affected (0.02 sec)
+Records: 11  Duplicates: 0  Warnings: 0
+
+MariaDB [csd2204w18]> desc customers;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| customersID | int(2)      | YES  |     | NULL    |       |
+| name        | varchar(20) | YES  |     | NULL    |       |
+| nickname    | varchar(10) | YES  |     | NULL    |       |
+| address     | varchar(50) | YES  |     | NULL    |       |
+| city        | varchar(30) | YES  |     | NULL    |       |
+| postalCode  | int(6)      | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+MariaDB [csd2204w18]> desc j1;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| customersID | int(2)      | YES  |     | NULL    |       |
+| name        | varchar(20) | YES  |     | NULL    |       |
+| nickname    | varchar(10) | YES  |     | NULL    |       |
+| address     | varchar(50) | YES  |     | NULL    |       |
+| city        | varchar(30) | YES  |     | NULL    |       |
+| postalCode  | int(6)      | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+MariaDB [csd2204w18]> select * from j1;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
+|          11 | Keshav          | NULL     | NULL                      | NULL       |       NULL |
++-------------+-----------------+----------+---------------------------+------------+------------+
+11 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> create table j3 LIKE persons;
+Query OK, 0 rows affected (0.02 sec)
+
+MariaDB [csd2204w18]> show tables;
++----------------------+
+| Tables_in_csd2204w18 |
++----------------------+
+| c1                   |
+| citymaster           |
+| customers            |
+| j1                   |
+| j3                   |
+| persons              |
++----------------------+
+6 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> create table c2 LIKE customers;
+Query OK, 0 rows affected (0.01 sec)
+
+MariaDB [csd2204w18]> insert into c2 select * from customers;
+Query OK, 11 rows affected (0.00 sec)
+Records: 11  Duplicates: 0  Warnings: 0
+
+MariaDB [csd2204w18]> select 
+    -> * from c2;
++-------------+-----------------+----------+---------------------------+------------+------------+
+| customersID | name            | nickname | address                   | city       | postalCode |
++-------------+-----------------+----------+---------------------------+------------+------------+
+|           1 | Ashley          | Ash      | 32 Washington street      | WDC        |     321200 |
+|           2 | Bob marley      | Bm       | Keele street              | Toronto    |     100100 |
+|           3 | Cherlies Theron | Cher     | 329 Empire state Building | New York   |     120134 |
+|           4 | Denial Jack     | DJ       | Spartan Building. East    | Brazil     |     341020 |
+|           5 | Donna newman    | New      | 250 Carlson blvd          | Toronto    |     130120 |
+|           6 | Eston M.        | M.       | 21 York. DV.              | Toronto    |     201023 |
+|           7 | Bobby Chacko    | Chac     | Kennedy                   | New York   |     320300 |
+|           8 | Ashko Charles   | AK       | Washington D.C.           | USA        |     421044 |
+|           9 | Tony Special    | Specie   | Oakville                  | GTA        |     418921 |
+|          10 | Jack Sp         | Sparrow  | Oaster village            | New Jersey |     102301 |
+|          11 | Keshav          | NULL     | NULL                      | NULL       |       NULL |
++-------------+-----------------+----------+---------------------------+------------+------------+
+11 rows in set (0.00 sec)
+
+MariaDB [csd2204w18]> 
+MariaDB [csd2204w18]> select version();
++-----------------+
+| version()       |
++-----------------+
+| 10.1.29-MariaDB |
++-----------------+
+1 row in set (0.00 sec)
+
+MariaDB [csd2204w18]> select database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [csd2204w18]> select database();
++------------+
+| database() |
++------------+
+| csd2204w18 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [csd2204w18]> 
